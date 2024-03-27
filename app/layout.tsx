@@ -1,3 +1,4 @@
+import { ClerkProvider } from "@clerk/nextjs";
 import type { Metadata } from "next";
 import { Nunito } from "next/font/google";
 
@@ -15,9 +16,11 @@ interface RootLayoutProps {
 
 const RootLayout = ({ children }: RootLayoutProps) => {
   return (
-    <html>
-      <body className={font.className}>{children}</body>
-    </html>
+    <ClerkProvider>
+      <html>
+        <body className={font.className}>{children}</body>
+      </html>
+    </ClerkProvider>
   );
 };
 
