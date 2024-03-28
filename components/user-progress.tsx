@@ -3,9 +3,10 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
+import { courses } from "@/db/schema";
 
 interface UserProgressProps {
-  activeCourse: { title: string; imageSrc: string };
+  activeCourse: typeof courses.$inferSelect;
   hearts: number;
   points: number;
   hasActiveSubscription: boolean;
