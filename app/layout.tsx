@@ -2,6 +2,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import type { Metadata } from "next";
 import { Nunito } from "next/font/google";
 
+import { ExitModal } from "@/components/modals/exit-modal";
 import { Toaster } from "@/components/ui/sonner";
 
 import "./globals.css";
@@ -22,6 +23,7 @@ const RootLayout = ({ children }: RootLayoutProps) => {
       <html>
         <body className={font.className}>
           <Toaster richColors />
+          <ExitModal />
           {children}
         </body>
       </html>

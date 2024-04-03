@@ -15,9 +15,9 @@ interface ListProps {
 }
 
 export const List = ({ courses, activeCourseId }: ListProps) => {
-  const router = useRouter();
-
   const [pending, startTransition] = useTransition();
+
+  const router = useRouter();
 
   const onClick = (id: number) => {
     if (pending) {
