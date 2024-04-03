@@ -5,8 +5,10 @@ import { getLesson, getUserProgress } from "@/db/queries";
 import { Quiz } from "./_components/quiz";
 
 const LessonPage = async () => {
-  const lesson = await getLesson();
-  const userProgress = await getUserProgress();
+  const [lesson, userProgress] = await Promise.all([
+    getLesson(),
+    getUserProgress(),
+  ]);
 
   if (!lesson || !userProgress) {
     return redirect("/learn");

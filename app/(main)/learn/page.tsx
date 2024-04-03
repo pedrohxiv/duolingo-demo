@@ -14,10 +14,13 @@ import { Header } from "./_components/header";
 import { Unit } from "./_components/unit";
 
 const LearnPage = async () => {
-  const userProgress = await getUserProgress();
-  const units = await getUnits();
-  const courseProgress = await getCourseProgress();
-  const lessonPercentage = await getLessonPercentage();
+  const [courseProgress, units, lessonPercentage, userProgress] =
+    await Promise.all([
+      getCourseProgress(),
+      getUnits(),
+      getLessonPercentage(),
+      getUserProgress(),
+    ]);
 
   if (!userProgress || !userProgress.activeCourse || !courseProgress) {
     return redirect("/courses");
