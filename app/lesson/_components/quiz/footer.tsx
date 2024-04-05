@@ -1,11 +1,11 @@
 import { CheckCircle, XCircle } from "lucide-react";
-import { useKey, useMedia } from "react-use";
+import { useKey } from "react-use";
 
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 interface FooterProps {
-  lessonId?: boolean;
+  lessonId?: number;
   disabled?: boolean;
   status: "correct" | "wrong" | "none" | "completed";
   onCheck: () => void;
@@ -17,8 +17,6 @@ export const Footer = ({
   status,
   onCheck,
 }: FooterProps) => {
-  const isMobile = useMedia("(max-width: 1024px)");
-
   useKey("Enter", onCheck, {}, [onCheck]);
 
   return (
@@ -45,7 +43,6 @@ export const Footer = ({
         {status === "completed" && (
           <Button
             variant="default"
-            size={isMobile ? "sm" : "lg"}
             onClick={() => (window.location.href = `/lesson/${lessonId}`)}
           >
             Practice again
@@ -55,7 +52,6 @@ export const Footer = ({
           disabled={disabled}
           className="ml-auto"
           onClick={onCheck}
-          size={isMobile ? "sm" : "lg"}
           variant={status === "wrong" ? "danger" : "secondary"}
         >
           {status === "none" && "Check"}

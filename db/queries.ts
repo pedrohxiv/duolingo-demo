@@ -28,13 +28,9 @@ export const getCourseById = cache(async (courseId: number) => {
 export const getCourseProgress = cache(async () => {
   const { userId } = await auth();
 
-  if (!userId) {
-    return null;
-  }
-
   const userProgress = await getUserProgress();
 
-  if (!userProgress?.activeCourseId) {
+  if (!userId || !userProgress?.activeCourseId) {
     return null;
   }
 
@@ -88,8 +84,7 @@ export const getUnits = cache(async () => {
     return [];
   }
 
-  const data = await db.query.units.findMany({
-    orderBy: (units, { asc }) => [asc(units.order)],
+  const unitsWithLessonsWithChallenges = await db.query.units.findMany({
     where: eq(units.courseId, userProgress.activeCourseId),
     with: {
       lessons: {
@@ -106,9 +101,10 @@ export const getUnits = cache(async () => {
         },
       },
     },
+    orderBy: (units, { asc }) => [asc(units.order)],
   });
 
-  const normalizedData = data.map((unit) => {
+  const data = unitsWithLessonsWithChallenges.map((unit) => {
     const lessonsWithCompletedStatus = unit.lessons.map((lesson) => {
       if (lesson.challenges.length === 0) {
         return { ...lesson, completed: false };
@@ -128,7 +124,7 @@ export const getUnits = cache(async () => {
     return { ...unit, lessons: lessonsWithCompletedStatus };
   });
 
-  return normalizedData;
+  return data;
 });
 
 export const getLesson = cache(async (id?: number) => {
