@@ -1,11 +1,11 @@
 import { MobileHeader } from "@/components/mobile-header";
 import { Sidebar } from "@/components/sidebar";
 
-interface MainLayoutProps {
+interface LearnLayoutProps {
   children: React.ReactNode;
 }
 
-const MainLayout = ({ children }: MainLayoutProps) => {
+const LearnLayout = ({ children }: LearnLayoutProps) => {
   return (
     <>
       <MobileHeader />
@@ -17,4 +17,4 @@ const MainLayout = ({ children }: MainLayoutProps) => {
   );
 };
 
-export default MainLayout;
+export default LearnLayout;
