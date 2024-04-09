@@ -102,7 +102,7 @@ export const reduceHearts = async (challengeId: number) => {
   revalidatePath(`/lesson/${lessonId}`);
 };
 
-export const RefillHearts = async () => {
+export const refillHearts = async () => {
   const currentUserProgress = await getUserProgress();
 
   if (!currentUserProgress) {

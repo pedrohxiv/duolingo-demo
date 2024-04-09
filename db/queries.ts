@@ -9,6 +9,7 @@ import {
   lessons,
   units,
   userProgress,
+  userSubscription,
 } from "@/db/schema";
 
 export const getCourses = cache(async () => {
@@ -211,4 +212,28 @@ export const getUserProgress = cache(async () => {
   });
 
   return data;
+});
+
+export const getUserSubscription = cache(async () => {
+  const { userId } = await auth();
+
+  if (!userId) {
+    return null;
+  }
+
+  const data = await db.query.userSubscription.findFirst({
+    where: eq(userSubscription.userId, userId),
+  });
+
+  if (!data) {
+    return null;
+  }
+
+  return {
+    ...data,
+    isActive: !!(
+      data.stripePriceId &&
+      data.stripeCurrentPeriodEnd?.getTime() * 86_400_000 > Date.now()
+    ),
+  };
 });
