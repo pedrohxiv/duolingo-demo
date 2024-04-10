@@ -1,6 +1,6 @@
 "use client";
 
-import { ClerkLoaded, ClerkLoading, UserButton } from "@clerk/nextjs";
+import { ClerkLoaded, ClerkLoading, UserButton, useUser } from "@clerk/nextjs";
 import { Loader2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -14,6 +14,8 @@ interface SidebarProps {
 }
 
 export const Sidebar = ({ className }: SidebarProps) => {
+  const { user } = useUser();
+
   const pathname = usePathname();
 
   return (
@@ -102,7 +104,12 @@ export const Sidebar = ({ className }: SidebarProps) => {
           <Loader2 className="h-5 w-5 text-muted-foreground animate-spin" />
         </ClerkLoading>
         <ClerkLoaded>
-          <UserButton afterSignOutUrl="/" />
+          <div className="flex items-center justify-start">
+            <UserButton afterSignOutUrl="/" />
+            <p className="ml-3 text-sm font-bold uppercase tracking-wide text-slate-500">
+              {user?.firstName} {user?.lastName}
+            </p>
+          </div>
         </ClerkLoaded>
       </div>
     </div>

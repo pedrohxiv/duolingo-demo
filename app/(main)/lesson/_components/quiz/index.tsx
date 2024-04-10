@@ -9,7 +9,7 @@ import { toast } from "sonner";
 
 import { upsertChallengeProgress } from "@/actions/challenge-progress";
 import { reduceHearts } from "@/actions/user-progress";
-import { challengeOptions, challenges } from "@/db/schema";
+import { challengeOptions, challenges, userSubscription } from "@/db/schema";
 import { useHeartsModal } from "@/store/use-hearts-modal";
 import { usePracticeModal } from "@/store/use-practice-modal";
 
@@ -27,7 +27,9 @@ interface QuizProps {
   })[];
   initialHearts: number;
   initialPercentage: number;
-  userSubscription: any;
+  userSubscription:
+    | (typeof userSubscription.$inferSelect & { isActive: boolean })
+    | null;
 }
 
 export const Quiz = ({
@@ -184,7 +186,11 @@ export const Quiz = ({
           </h1>
           <div className="flex items-center gap-x-4 w-full">
             <ResultCard variant="points" value={challenges.length * 10} />
-            <ResultCard variant="hearts" value={hearts} />
+            <ResultCard
+              variant="hearts"
+              value={hearts}
+              hasActiveSubscription={!!userSubscription?.isActive}
+            />
           </div>
         </div>
         <Footer
